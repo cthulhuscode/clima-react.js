@@ -1,4 +1,8 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
+
+// Components
+import Error from "./Error";
 
 const Form = ({ query, setQuery, setDoQuery }) => {
   const [error, setError] = useState(false);
@@ -23,6 +27,7 @@ const Form = ({ query, setQuery, setDoQuery }) => {
       setError(true);
       return null;
     }
+    setError(false);
 
     // Send it to the App.js
     setDoQuery(true);
@@ -30,9 +35,7 @@ const Form = ({ query, setQuery, setDoQuery }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      {error ? (
-        <p className="red darken-3 error">Todos los campos son obligatorios</p>
-      ) : null}
+      {error ? <Error msg="Todos los campos son obligatorios" /> : null}
       <div className="input-field col s12">
         <input
           type="text"
@@ -41,7 +44,9 @@ const Form = ({ query, setQuery, setDoQuery }) => {
           value={city}
           onChange={handleChange}
         />
-        <label htmlFor="city">Ciudad: </label>
+        <label htmlFor="city" className="white-text">
+          Ciudad:{" "}
+        </label>
       </div>
       <div className="input-field col s12">
         <select
@@ -59,7 +64,9 @@ const Form = ({ query, setQuery, setDoQuery }) => {
           <option value="ES">España</option>
           <option value="PE">Perú</option>
         </select>
-        <label htmlFor="country">País: </label>
+        <label htmlFor="country" className="white-text">
+          País:{" "}
+        </label>
       </div>
 
       <div className="input-field col s12">
@@ -71,6 +78,12 @@ const Form = ({ query, setQuery, setDoQuery }) => {
       </div>
     </form>
   );
+};
+
+Form.propTypes = {
+  query: PropTypes.object.isRequired,
+  setQuery: PropTypes.func.isRequired,
+  setDoQuery: PropTypes.func.isRequired,
 };
 
 export default Form;
